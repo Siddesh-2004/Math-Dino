@@ -8,14 +8,18 @@ import JumpButton from '../../components/JumpButton';
 import SettingsSheet from '../../components/SettingsSheet';
 import { C } from '../../theme';
 import { makeProblem } from '../../game/problem';
-
+import { usePersisted } from '../../game/usePersisted';
 export default function GameScreen() {
-  const [settings, setSettings] = useState({ n1: [0, 10], n2: [0, 10], difficulty: 'medium' });
+
+
+
+  const [score, setScore] = useState(0);
+  const [settings, setSettings] = usePersisted('settings', { n1: [10, 100], n2: [10, 100], difficulty: 'easy' });
+  const [best, setBest] = usePersisted('best', 0);
   const [problem, setProblem] = useState(() => makeProblem(settings.n1, settings.n2));
   const [value, setValue] = useState('');
   const [phase, setPhase] = useState('ready'); // 'ready' | 'playing' | 'over'
-  const [score, setScore] = useState(0);
-  const [best, setBest] = useState(0);
+
 
   const onKey = (k) => {
     if (k === 'CLR') setValue('');
@@ -38,7 +42,7 @@ export default function GameScreen() {
       </View>
       <View style={{ gap: 10 }}>
         <Keypad onKey={onKey} />
-        <JumpButton ready={value === problem.answer} onPress={() => {}} />
+        <JumpButton ready={value === problem.answer} onPress={() => { }} />
       </View>
       <SettingsSheet
         visible={phase !== 'playing'}
