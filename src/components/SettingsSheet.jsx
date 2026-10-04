@@ -8,9 +8,9 @@ import ChunkyButton from './ChunkyButton';
 import { C } from '../theme';
 
 export const PRESETS = {
-  easy:   { range: [1, 5],  secs: 5.0, desc: 'Easy: single digits (1–5) with relaxed 5.0s timer.', color: C.gold },
-  medium: { range: [1, 10], secs: 3.0, desc: 'Medium: standard 1–10 times tables with 3.0s countdown.', color: C.cyan },
-  hard:   { range: [6, 15], secs: 1.8, desc: 'Hard: large factors up to 15 with rapid 1.8s timer!', color: C.primary },
+  easy:   { range: [1, 5],  start: 5.0, min: 2.5, perTen: 2.0, ramp: 30, desc: 'Easy: starts at 5.0s for limit 10, +2.0s per extra 10.', color: C.gold },
+  medium: { range: [1, 10], start: 4.5, min: 1.6, perTen: 1.0, ramp: 30, desc: 'Medium: starts at 4.5s for limit 10, +1.0s per extra 10.', color: C.cyan },
+  hard:   { range: [6, 15], start: 3.0, min: 1.0, perTen: 0.5, ramp: 30, desc: 'Hard: starts at 3.0s for limit 10, +0.5s per extra 10.', color: C.primary },
 };
 
 function RangeBox({ title, range, onChange }) {
@@ -85,7 +85,7 @@ export default function SettingsSheet({ visible, value, onChange, best, score, i
                       <Text style={[s.pillMain, active && { color: PRESETS[d].color }]}>
                         {d[0].toUpperCase() + d.slice(1)}
                       </Text>
-                      <Text style={s.pillSub}>{PRESETS[d].secs.toFixed(1)}s</Text>
+                      <Text style={s.pillSub}>{PRESETS[d].start.toFixed(1)}s</Text>
                     </Pressable>
                   );
                 })}

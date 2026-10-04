@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import Svg, { Path, Rect, G } from 'react-native-svg';
 import { C } from '../theme';
+import { DINO_LEFT } from '../game/constants';
 
 const GROUND = 24;
 
@@ -39,17 +40,17 @@ function Cloud({ top, left, opacity }) {
   );
 }
 
-export default function Arena({ score, hiScore }) {
+export default function Arena({ score, hiScore, cactusPos = 1, dinoY = 0, onLayoutWidth }) {
   const pad = (n) => String(n).padStart(5, '0');
   return (
-    <View style={s.arena}>
+    <View style={s.arena} onLayout={e => onLayoutWidth?.(e.nativeEvent.layout.width)}>
       <Text style={s.score}>
         <Text style={{ opacity: 0.55 }}>HI {pad(hiScore)}  </Text>{pad(score)}
       </Text>
       <Cloud top={16} left={40} opacity={0.5} />
       <Cloud top={48} left={190} opacity={0.4} />
-      <View style={[s.abs, { left: 28, bottom: GROUND - 3 }]}><Dino /></View>
-      <View style={[s.abs, { right: 60, bottom: GROUND - 3 }]}><Cactus /></View>
+     <View style={[s.abs, { left: DINO_LEFT, bottom: GROUND - 3 + dinoY }]}><Dino /></View>
+      <View style={[s.abs, { left: `${cactusPos * 100}%`, bottom: GROUND - 3 }]}><Cactus /></View>
       <View style={s.ground} />
     </View>
   );
